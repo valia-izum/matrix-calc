@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 // Hello first commit
 
@@ -13,6 +14,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WebView myWebView = (WebView) findViewById(R.id.webView);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        String data = "<html>" +
+                "<head>hello title</head>" +
+                "<body><h1> HELLO WORLD</h1></body>" +
+                "</html>";
+        myWebView.loadData(data, "text/html", "UTF8");
     }
 
     @Override
@@ -36,4 +44,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
