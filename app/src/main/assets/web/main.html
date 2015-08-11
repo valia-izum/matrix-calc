@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+<head>
+	<title>My Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="jquery.mobile-1.4.5.min.js"></script>
+
+
+
+
+	<style>
+		.ui-input-text{
+		margin: .5em .5em;
+		}
+
+		.error{
+		border-color: red !important;
+		}
+
+	</style>
+
+	<script>
+	
+	function GetMatrixType()
+	{
+	
+		//console.log("index: " + $("ul li.ui-state-active").index());
+		if ($("ul li.ui-state-active").index() == 0)
+		{
+			return "double";
+		}
+		else
+		{
+			return "triple";
+		}
+	
+	}
+	
+	
+	function IsNumberValidation()
+	{
+		errorFlag = true;
+		
+		if(matrixType == "double")
+		{
+			$("input[name*='number-a']").each(function() {
+				if(!$.isNumeric($( this ).val()))
+				{
+					errorFlag = false;
+					// show error message-box
+					$( "#validationErrorPopup" ).popup("open");
+					//show in which element - not working
+					$( this ).css("border-color", "red");
+					$( this ).addClass("error");
+				}
+				
+			});
+			return errorFlag;
+			
+		}
+		else
+		{
+			$("input[name*='number-b']").each(function() {
+				if(!$.isNumeric($( this ).val()))
+				{
+					errorFlag = false;
+					// show error message-box
+					$( "#validationErrorPopup" ).popup("open");
+					//show in which element - not working
+					$( this ).css("border-color", "red");
+				}
+				
+			});
+			return errorFlag;
+			
+		}
+	
+	}
+	
+	
+	function Count()
+	{
+	
+		result = 0;
+		matrixType = GetMatrixType();
+		
+		
+		if(IsNumberValidation())
+		{
+			if(matrixType == "double")
+			{
+				result = doubleMatrixCount();
+			}
+			else
+			{
+				result = tripleMatrixCount();
+			}
+			
+			//console.log(result);
+			$("#result").text(result);
+		}
+		
+		else
+		{
+		
+		}
+		
+	}
+	
+	
+	function doubleMatrixCount()
+	{
+	
+		a11 = $("#a11").val();
+		a12 = $("#a12").val();
+		a21 = $("#a21").val();
+		a22 = $("#a22").val();
+		
+		determinant = a11*a22 - a12*a21;
+		
+		return determinant;
+	
+	}
+		
+	
+	function tripleMatrixCount()
+	{
+		b11 = $("#b11").val();
+		b12 = $("#b12").val();
+		b13 = $("#b13").val();
+		
+		b21 = $("#b21").val();
+		b22 = $("#b22").val();
+		b23 = $("#b23").val();
+		
+		b31 = $("#b31").val();
+		b32 = $("#b32").val();
+		b33 = $("#b33").val();
+		
+		determinant = b11*b22*b33 + b12*b23*b31 + b21*b13*b32 - b13*b22*b31 - b12*b21*b33 - b11*b23*b32;
+		
+		return determinant;
+	}
+	
+	function ClearMatrix()
+	{
+		matrixType = GetMatrixType();
+		 
+		
+		if(matrixType == "double")
+		{
+			result = ClearDoubleMatrix();
+		}
+		else
+		{
+			result = ClearTripleMatrix();
+		}
+	}
+	
+	function ClearDoubleMatrix()
+	{
+		$("input[name*='number-a']").each(function() {
+		  $( this ).val("0");
+		});
+	}
+	
+	function ClearTripleMatrix()
+	{
+		$("input[name*='number-b']").each(function() {
+		  $( this ).val("0");
+		});
+	}
+	
+	function ClearResult()
+	{
+		$("#result").text("");
+	}
+	
+	</script>
+</head>
+
+
+<body>
+<div data-role="page">
+
+	<div data-role="tabs" id="tabs">
+		<div data-role="header" data-theme="b">
+			<div data-role="navbar">
+				<ul id="matrixType">
+					<li><a name="matrix-choice" href="#one" data-ajax="false" onclick="ClearResult()"><span>2x2</span></a></li>
+					<li><a name="matrix-choice" href="#two" data-ajax="false" onclick="ClearResult()"><span>3x3</span></a></li>
+				</ul>
+			</div>
+		</div><!-- /header -->
+
+
+
+
+		<div data-role="content">
+
+			<p><b> D = <span id="result"></span></b></p>
+
+			<div data-role="popup" id="validationErrorPopup">
+				<p>Введите число. Для дробных чисел используйте точку. Например: 1.1</p>
+			</div>
+
+			<div data-role="popup" id="informPopup">
+				<p>По всем вопросам и предложениям пишите на <a href="mailto:valia.izum.matrix@gmail.com?Subject=Matrix%20app">valia.izum.matrix@gmail.com</a></p>
+			</div>
+
+			<div id="one">
+				<div id="double-matrix-container">
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<input class="matrix-element" type="text" name="number-a11" id="a11" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-b">
+							<input class="matrix-element" type="text" name="number-a12" id="a12" placeholder="1.0" required />
+						</div>
+					</div>
+					<div class="ui-grid-a">
+						<div class="ui-block-a">
+							<input class="matrix-element" type="text" name="number-a21" id="a21" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-b">
+							<input class="matrix-element" type="text" name="number-a22" id="a22" placeholder="1.0" required />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="two">
+				<div id="triple-matrix-container">
+					<div class="ui-grid-b">
+						<div class="ui-block-a">
+							<input class="matrix-element" type="text" name="number-b11" id="b11" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-b">
+							<input class="matrix-element" type="text" name="number-b12" id="b12" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-c">
+							<input class="matrix-element" type="text" name="number-b13" id="b13" placeholder="1.0" required />
+						</div>
+					</div>
+					<div class="ui-grid-b">
+						<div class="ui-block-a">
+							<input class="matrix-element" type="text" name="number-b21" id="b21" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-b">
+							<input class="matrix-element" type="text" name="number-b22" id="b22" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-c">
+							<input class="matrix-element" type="text" name="number-b23" id="b23" placeholder="1.0" required />
+						</div>
+					</div>
+					<div class="ui-grid-b">
+						<div class="ui-block-a">
+							<input class="matrix-element" type="text" name="number-b31" id="b31" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-b">
+							<input class="matrix-element" type="text" name="number-b32" id="b32" placeholder="1.0" required />
+						</div>
+						<div class="ui-block-c">
+							<input class="matrix-element" type="text" name="number-b33" id="b33" placeholder="1.0" required />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- /content -->
+	</div>
+
+	<div class="ui-grid-a">
+		<div class="ui-block-a">
+			<input type="button" value="Очистить" id="clearButton" onclick="ClearMatrix()"/>
+		</div>
+		<div class="ui-block-b">
+			<input type="button" value="Посчитать" id="countButton" onclick="Count()" />
+		</div>
+	</div>
+
+	<div data-role="footer">
+		<a href="#informPopup" data-rel="popup" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-info">Инфо</a>
+		<a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-action">Вк</a>
+		<a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-user">Fb</a>
+
+	</div><!-- /footer -->
+
+</div><!-- /page -->
+</body>
+
+
+</html>
