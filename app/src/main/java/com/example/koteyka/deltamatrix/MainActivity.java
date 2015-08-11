@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         WebView myWebView = (WebView) findViewById(R.id.webView);
         myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.loadUrl("web/main.html");
+        myWebView.loadUrl("file:///android_asset/web/main.html");
     }
 
     @Override
