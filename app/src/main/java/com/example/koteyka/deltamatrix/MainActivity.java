@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 // Hello first commit
 
@@ -17,6 +19,17 @@ public class MainActivity extends ActionBarActivity {
         WebView myWebView = (WebView) findViewById(R.id.webView);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.loadUrl("file:///android_asset/web/main.html");
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        // uncomment before release
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest request = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+                //.addTestDevice("AC98C820A50B4AD8A2106EDE96FB87D4")  // My Galaxy Nexus test phone
+                .build();
+
+
+        mAdView.loadAd(request);
     }
 
     @Override
